@@ -34,8 +34,10 @@ public class RegistryHelper {
 	 * @param registryName The name for the Item to be registered to.
 	 */
 	public static void registerItem(Item item, String registryName) {
-		GameRegistry.register(item.setRegistryName(registryName));
-		if (MainModReference.SHOULD_LOG_ITEM_REGISTRY) ModLogger.logInfoMessage("Successfully added " + registryName + " to Item Registry.");
+		if (item != null && registryName != null && !registryName.isEmpty()) {
+			GameRegistry.register(item.setRegistryName(registryName));
+			if (MainModReference.SHOULD_LOG_ITEM_REGISTRY) ModLogger.logInfoMessage("Successfully added " + registryName + " to Item Registry.");
+		} else ModLogger.logErrorMessage("Something was null or empty. " + "Block: " + item + " Name: " + registryName);
 	}
 	
 	/**
@@ -44,9 +46,21 @@ public class RegistryHelper {
 	 * @param registryName The name for the block to be registered to.
 	 */
 	public static void registerBlock(Block block, String registryName) {
-		GameRegistry.register(block.setRegistryName(registryName));
-		registerItem(new ItemBlock(block), registryName);
-		if (MainModReference.SHOULD_LOG_BLOCK_REGISTRY) ModLogger.logInfoMessage("Successfully added " + registryName + " to Block Registry.");
+		if (block != null && registryName != null && !registryName.isEmpty()) {
+			GameRegistry.register(block.setRegistryName(registryName));
+			registerItem(new ItemBlock(block), registryName);
+			if (MainModReference.SHOULD_LOG_BLOCK_REGISTRY) ModLogger.logInfoMessage("Successfully added " + registryName + " to Block Registry.");
+		} else ModLogger.logErrorMessage("Something was null or empty. " + "Block: " + block + " Name: " + registryName);
+	}
+	
+	public static void registerCustomItemBlockAndBlock(Block block, ItemBlock itemBlock, String registryName) {
+		if (block != null && itemBlock != null && registryName != null && !registryName.isEmpty()) {
+			GameRegistry.register(block.setRegistryName(registryName));
+			if (itemBlock.getRegistryName() == null || !itemBlock.getRegistryName().getResourcePath().isEmpty()) {
+				registerItem(itemBlock, registryName);
+			} else ModLogger.logErrorMessage("ItemBlock already has an registered name. " + itemBlock.getRegistryName());
+			if (MainModReference.SHOULD_LOG_BLOCK_REGISTRY) ModLogger.logInfoMessage("Successfully added " + registryName + " to Block Registry.");
+		} else ModLogger.logErrorMessage("Something was null or empty. " + "Block: " + block + " ItemBlock: " + itemBlock + " Name: " + registryName);
 	}
 	
 	/**
@@ -98,7 +112,9 @@ public class RegistryHelper {
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void registerItemModel(Item item, int meta) {
-		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(MainModReference.MODID + ":" + item.getUnlocalizedName().substring(5)));
+		if (item != null) {
+			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(MainModReference.MODID + ":" + item.getUnlocalizedName().substring(5)));
+		} else ModLogger.logErrorMessage("Trying to register Item model error item is null.");
 	}
 	
 	/**
@@ -108,7 +124,9 @@ public class RegistryHelper {
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void registerBlockModel(Block block, int meta) {
-		registerItemModel(Item.getItemFromBlock(block), meta);
+		if (block != null) {
+			registerItemModel(Item.getItemFromBlock(block), meta);
+		} else ModLogger.logErrorMessage("Trying to register Block model error block is null.");
 	}
 	
 	/**
