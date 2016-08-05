@@ -48,10 +48,19 @@ public class MainModReference {
 	 */
 	public static final SimpleNetworkWrapper WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 	
+	/**
+	 * Whether or not it should log when items are registered.
+	 */
 	public static final boolean SHOULD_LOG_ITEM_REGISTRY = true;
 	
+	/**
+	 * Whether or not it should log when Blocks are registered.
+	 */
 	public static final boolean SHOULD_LOG_BLOCK_REGISTRY = true;
 	
+	/**
+	 * Whether or not it should log when things are registered to the OreDictionary.
+	 */
 	public static final boolean SHOULD_LOG_OREDICT_REGISTRY = true;
 	
 }
