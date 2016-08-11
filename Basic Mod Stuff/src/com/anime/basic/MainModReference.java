@@ -24,7 +24,7 @@ public class MainModReference {
 	 */
 	public static final String APPLICABLE_MINECRAFT_VERSIONS = "[1.8],[1.8.9]";
 	/**
-	 * The mods Dependencies(if it has any).
+	 * The Mods Dependencies(if it has any).
 	 */
 	public static final String MOD_DEPENDENCIES = "";
 	
