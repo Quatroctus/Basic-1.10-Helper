@@ -53,6 +53,12 @@ public class RegistryHelper {
 		} else ModLogger.logErrorMessage("Something was null or empty. " + "Block: " + block + " Name: " + registryName);
 	}
 	
+	/**
+	 * Registers the Block and ItemBlock to the registry.
+	 * @param block The Block to be registered.
+	 * @param itemBlock An instance of the ItemBlock you wish to tie this block to.
+	 * @param registryName The name for the block to be registered to.
+	 */
 	public static void registerCustomItemBlockAndBlock(Block block, ItemBlock itemBlock, String registryName) {
 		if (block != null && itemBlock != null && registryName != null && !registryName.isEmpty()) {
 			GameRegistry.register(block.setRegistryName(registryName));
@@ -106,19 +112,19 @@ public class RegistryHelper {
 	}
 	
 	/**
-	 * Registers the model from the items unlocalized name and MainModReference.MODID
-	 * @param item The item that will be bound to that model
+	 * Registers the model from the items registry name.
+	 * @param item The item that will be bound to that model.
 	 * @param meta The metadata of the item.
 	 */
 	@SideOnly(Side.CLIENT)
 	public static void registerItemModel(Item item, int meta) {
 		if (item != null) {
-			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(MainModReference.MODID + ":" + item.getUnlocalizedName().substring(5)));
+			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		} else ModLogger.logErrorMessage("Trying to register Item model error item is null.");
 	}
 	
 	/**
-	 * Registers the model from the itemblocks unlocalized name and MainModReference.MODID
+	 * Registers the model from the itemblocks registry name.
 	 * @param block The block that will be bound to that model.
 	 * @param meta The metadata of the block.
 	 */
@@ -130,8 +136,8 @@ public class RegistryHelper {
 	}
 	
 	/**
-	 * Registers the specified TileEntity using the MainModReference.MODID
-	 * @param tileEntityClass The TileEntity Class what will be registered
+	 * Registers the specified TileEntity using the MainModReference.MODID.
+	 * @param tileEntityClass The TileEntity Class what will be registered.
 	 */
 	public static void registerTileEntity(Class<? extends TileEntity> tileEntityClass) {
 		GameRegistry.registerTileEntity(tileEntityClass, MainModReference.MODID + ":" + tileEntityClass.getName().substring(11));
@@ -140,7 +146,7 @@ public class RegistryHelper {
 	/**
 	 * Registers the specified TileEntity to MainModReference.MODID and binds a TESR to it.
 	 * @param tileEntityClass The TileEntity Class that will be registered/binded.
-	 * @param specialRenderer 
+	 * @param specialRenderer An instance of your TESR.
 	 */
 	public static void registerTileEntityWithTESR(Class<? extends TileEntity> tileEntityClass, TileEntitySpecialRenderer<? super TileEntity> specialRenderer) {
 		registerTileEntity(tileEntityClass);
@@ -152,7 +158,7 @@ public class RegistryHelper {
 	 * @param renderEntity The RednerFactory of the specified entity.
 	 * @param entityClass The Entities class that will be registered.
 	 * @param id The mod specific ID of the entity.
-	 * @param modInstance Either the modid or the @Instance variable
+	 * @param modInstance Either the modid or the @Instance variable.
 	 * @param trackingRange The range in which the client will render.
 	 * @param updateFreq How fast the entity will send updates to the client.
 	 * @param hexColorPrimary Primary color of the egg using hexadecimal.
